@@ -6,3 +6,6 @@ relink(){
 	ln -sfn `readlink -f $2` $1
 }
 
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	echo "This script should be sourced, not run: '. $0'"
+fi
