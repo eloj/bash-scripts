@@ -7,3 +7,7 @@ rep() {
 		printf "%.0s$S" $(seq 1 $C)
 	fi
 }
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	echo "This script should be sourced, not run: '. $0'"
+fi
