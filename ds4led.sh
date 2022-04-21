@@ -1,11 +1,23 @@
 #!/bin/bash
 #
-# Set the color intensity of a PS4 Dual Shock Controller
-# Call with '<RRGGBB> [/dev/input/js0] [<udev-path>]'
+# Set the color intensity of an attached Playstation PS4 Dualshock 4 Controller
+# Usage: 'ds4led.sh RRGGBB [/dev/input/js0] [<udev-path>]'
+#
+# Example colors (from https://github.com/torvalds/linux/blob/1e2a199f6ccdc15cf111d68d212e2fd4ce65682e/drivers/hid/hid-sony.c#L1944)
+#   Blue   000040
+#   Red    400000
+#   Green  004000
+#   Pink   200020
+#   Orange 020100
+#   Teal   000101
+#   White  010101
 #
 # Example udev-rule:
 # $ cat /etc/udev/rules.d/10-dualshock4.rules
-# ACTION=="add", SUBSYSTEM=="input", ATTRS{uniq}=="fe:ed:be:ef:aa:ff", RUN+="/local/bin/ds4led.sh 000001 '%E{DEVNAME}' '%p'"
+# ACTION=="add", SUBSYSTEM=="input", ATTRS{name}=="Sony Computer Entertainment Wireless Controller", RUN+="/local/bin/ds4led.sh 000001 '%E{DEVNAME}' '%p'"
+# ... or ATTRS{uniq}=="fe:ed:be:ef:aa:ff" (get it from e.g udevadm info -a  -p `udevadm info -q path -n /dev/input/js0`)
+#
+# Based on https://gaming.stackexchange.com/questions/336934/how-to-set-default-color-and-brightness-of-leds-of-the-dualshock-4-controller-on
 #
 COLOR="${1:-000001}"
 DEVNAME="${2:-/dev/input/js0}"
@@ -27,6 +39,7 @@ if [ -z "$LEDID" ]; then
 	echo "Error: Failed to extract LED ID from devpath."
 	exit 1
 fi
+
 if [ ! -d "/sys/class/leds/$LEDID:global" ]; then
 	echo "Error: /sys/class/leds/$LEDID:global not found"
 	exit 2
