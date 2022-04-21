@@ -1,0 +1,2 @@
+#!/bin/sh
+iconv -f CP437 -t UTF-8 $* -o -

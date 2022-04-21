@@ -1,0 +1,3 @@
+#!/bin/bash
+ext=${2:-opus}
+ffmpeg -i "$1" -vn -acodec copy "${1%.*}.$ext"
