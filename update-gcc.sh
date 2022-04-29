@@ -1,5 +1,5 @@
 #!/bin/bash
-TVER=11
+TVER=${1:-11}
 TDIR=/opt/local/bin
 update-alternatives --remove-all gcc
 update-alternatives --remove-all g++
