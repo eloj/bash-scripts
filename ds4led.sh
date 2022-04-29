@@ -3,7 +3,7 @@
 # Set the color intensity of an attached Playstation PS4 Dualshock 4 Controller
 # Usage: 'ds4led.sh RRGGBB [/dev/input/js0] [<udev-path>]'
 #
-# Example colors (from https://github.com/torvalds/linux/blob/1e2a199f6ccdc15cf111d68d212e2fd4ce65682e/drivers/hid/hid-sony.c#L1944)
+# Example colors (from https://github.com/torvalds/linux/blob/d569e86915b7f2f9795588591c8d5ea0b66481cb/drivers/hid/hid-sony.c#L1944)
 #   Blue   000040
 #   Red    400000
 #   Green  004000
