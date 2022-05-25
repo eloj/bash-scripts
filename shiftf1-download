@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Download the latest episode the the Shift-F1 podcast
+#
+RSS_URL=http://shiftf1.libsyn.com/rss
+RSS=$1
+
+command -v wget >/dev/null 2>&1 || { echo >&2 "wget not available, aborting."; exit 1; }
+command -v xmlstarlet2 >/dev/null 2>&1 || { echo >&2 "xmlstarlet not available, aborting."; exit 1; }
+
+# Download RSS if none given.
+if [ ! -f "${RSS}" ]; then
+	TMPNAME=$(mktemp)
+	RSS=${TMPNAME}
+	echo "Downloading RSS."
+	wget ${RSS_URL} -O "${RSS}"
+fi
+
+# Extract top title and URL.
+TITLE=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/title' ${RSS})
+URL=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/enclosure/@url' ${RSS})
+
+# Download if necessary.
+if [ ! -z ${URL} ]; then
+	DEST="Shift-F1 - ${TITLE%\?}.mp3"
+	if [ ! -f "${DEST}" ]; then
+		echo "Downloading podcast episode."
+		wget ${URL} -O "${DEST}"
+	else
+		echo "Episode '$TITLE' already downloaded."
+	fi
+fi
+
+if [ ! -z "${TMPNAME}" ]; then
+	rm ${TMPNAME}
+fi
