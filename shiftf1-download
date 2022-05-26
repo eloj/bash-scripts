@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# Download the latest episode the the Shift-F1 podcast
+# Download the latest episode the Shift-F1 podcast
 #
 RSS_URL=http://shiftf1.libsyn.com/rss
 RSS=$1
 
 command -v wget >/dev/null 2>&1 || { echo >&2 "wget not available, aborting."; exit 1; }
-command -v xmlstarlet2 >/dev/null 2>&1 || { echo >&2 "xmlstarlet not available, aborting."; exit 1; }
+command -v xmlstarlet >/dev/null 2>&1 || { echo >&2 "xmlstarlet not available, aborting."; exit 1; }
 
 # Download RSS if none given.
 if [ ! -f "${RSS}" ]; then
@@ -19,10 +19,13 @@ fi
 # Extract top title and URL.
 TITLE=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/title' ${RSS})
 URL=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/enclosure/@url' ${RSS})
+# already in title: EPISODE=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/itunes:episode' ${RSS})
+PUBDATE=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/pubDate' ${RSS})
+DATE=$(date +"%Y-%m-%d" --date="${PUBDATE}")
 
 # Download if necessary.
 if [ ! -z ${URL} ]; then
-	DEST="Shift-F1 - ${TITLE%\?}.mp3"
+	DEST="Shift-F1 - ${TITLE%\?} (${DATE}).mp3"
 	if [ ! -f "${DEST}" ]; then
 		echo "Downloading podcast episode."
 		wget ${URL} -O "${DEST}"
