@@ -1,10 +1,11 @@
 #!/bin/bash
+# Exact duplicate detection via hashing.
 SUMBIN="${SUMBIN:-sha256sum}"
 SUMOUT=${SUMBIN}s
 echo Hashing files..
 find . -type f -size +0c -exec $SUMBIN {} \; >$SUMOUT
 echo Generating duplicate list..
-sort -r <sha256sums | uniq -w 64 -D >$SUMOUT.dupes
+sort -r <$SUMOUT | uniq -w 64 -D >$SUMOUT.dupes
 if [ -s "$SUMOUT.dupes" ]; then
 	echo "Duplicates logged in '$SUMOUT.dupes'"
 else
