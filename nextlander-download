@@ -11,8 +11,6 @@ EPISODE=${2:-1}
 command -v wget >/dev/null 2>&1 || { echo >&2 "wget not available, aborting."; exit 1; }
 command -v xmlstarlet >/dev/null 2>&1 || { echo >&2 "xmlstarlet not available, aborting."; exit 1; }
 
-EPATH="/rss/channel/item[${EPISODE}]"
-
 # If passed a URI, then download it
 if [[ ${RSS} =~ ^http.* ]]; then
 	echo "URI detected."
@@ -28,6 +26,8 @@ if [ ! -f "${RSS}" ]; then
 else
 	echo "Using local RSS file."
 fi
+
+EPATH="/rss/channel/item[${EPISODE}]"
 
 # Extract relevant data from XML
 CHANNEL=$(xmlstarlet sel --text -t -v '/rss/channel/title' ${RSS})

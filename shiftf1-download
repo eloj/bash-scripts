@@ -1,12 +1,21 @@
 #!/bin/bash
 #
-# Download the latest episode the Shift-F1 podcast
+# Download Shift-F1 podcast(s)
+#
+# The optional episode number is in RSS order (1 = newest, 2 = previous ...)
 #
 RSS_URL=http://shiftf1.libsyn.com/rss
 RSS=$1
+EPISODE=${2:-1}
 
 command -v wget >/dev/null 2>&1 || { echo >&2 "wget not available, aborting."; exit 1; }
 command -v xmlstarlet >/dev/null 2>&1 || { echo >&2 "xmlstarlet not available, aborting."; exit 1; }
+
+# If passed a URI, then download it
+if [[ ${RSS} =~ ^http.* ]]; then
+	echo "URI detected."
+	RSS_URL=${RSS}
+fi
 
 # Download RSS if none given.
 if [ ! -f "${RSS}" ]; then
@@ -14,18 +23,26 @@ if [ ! -f "${RSS}" ]; then
 	RSS=${TMPNAME}
 	echo "Downloading RSS."
 	wget ${RSS_URL} -O "${RSS}"
+else
+	echo "Using local RSS file."
 fi
 
+EPATH="/rss/channel/item[${EPISODE}]"
+
 # Extract top title and URL.
-TITLE=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/title' ${RSS})
-URL=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/enclosure/@url' ${RSS})
-# already in title: EPISODE=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/itunes:episode' ${RSS})
-PUBDATE=$(xmlstarlet sel --text -t -v '/rss/channel/item[1]/pubDate' ${RSS})
+TITLE=$(xmlstarlet sel --text -t -v ${EPATH}'/title' ${RSS})
+URL=$(xmlstarlet sel --text -t -v ${EPATH}'/enclosure/@url' ${RSS})
+# already in title
+# EPISODE=$(xmlstarlet sel --text -t -v ${EPATH}'/itunes:episode' ${RSS})
+PUBDATE=$(xmlstarlet sel --text -t -v ${EPATH}'/pubDate' ${RSS})
 DATE=$(date +"%Y-%m-%d" --date="${PUBDATE}")
+
+DEST="Shift-F1 - ${TITLE%\?} (${DATE}).mp3"
+# Replace colons
+DEST=${DEST//:/ - }
 
 # Download if necessary.
 if [ ! -z ${URL} ]; then
-	DEST="Shift-F1 - ${TITLE%\?} (${DATE}).mp3"
 	if [ ! -f "${DEST}" ]; then
 		echo "Downloading podcast episode."
 		wget ${URL} -O "${DEST}"
