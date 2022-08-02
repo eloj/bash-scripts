@@ -37,9 +37,14 @@ EPISODE=$(xmlstarlet sel --text -t -v ${EPATH}'/itunes:episode' ${RSS})
 PUBDATE=$(xmlstarlet sel --text -t -v ${EPATH}'/pubDate' ${RSS})
 DATE=$(date +"%Y-%m-%d" --date="${PUBDATE}")
 
-DEST=$(printf "%s - %03d - %s (%s).mp3" "${CHANNEL}" ${EPISODE} "${TITLE%\?}" "${DATE}")
-# Replace colons
+EPISODE_PAD=$(printf "%03d" ${EPISODE})
+# Try to strip episode number from title
+TITLE=${TITLE//${EPISODE_PAD} - /}
+TITLE=${TITLE//${EPISODE_PAD}: /}
+DEST=$(printf "%s - %s - %s (%s).mp3" "${CHANNEL}" "${EPISODE_PAD}" "${TITLE%\?}" "${DATE}")
+# Filename fixups
 DEST=${DEST//:/ - }
+DEST=${DEST//  / }
 
 # Download if necessary.
 if [ ! -z ${URL} ]; then
