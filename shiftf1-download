@@ -38,8 +38,10 @@ PUBDATE=$(xmlstarlet sel --text -t -v ${EPATH}'/pubDate' ${RSS})
 DATE=$(date +"%Y-%m-%d" --date="${PUBDATE}")
 
 DEST="Shift-F1 - ${TITLE%\?} (${DATE}).mp3"
-# Replace colons
+# Filename fixups
 DEST=${DEST//:/ - }
+DEST=${DEST//\//-}
+DEST=${DEST//  / }
 
 # Download if necessary.
 if [ ! -z ${URL} ]; then
