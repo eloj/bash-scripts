@@ -13,10 +13,12 @@ for f in ./*.mp4; do
 		exit 1
 	fi
 
-	if [ -e ${subpath}/3_English.srt ]; then
-		cp ${subpath}/3_English.srt ${base}.srt
-	elif [ -e ${subpath}/2_English.srt ]; then
-		cp ${subpath}/2_English.srt ${base}.srt
+	if [ -e "${subpath}/4_English.srt" ]; then
+		cp "${subpath}/4_English.srt" "${base}.srt"
+	elif [ -e "${subpath}/3_English.srt" ]; then
+		cp "${subpath}/3_English.srt" "${base}.srt"
+	elif [ -e "${subpath}/2_English.srt" ]; then
+		cp "${subpath}/2_English.srt" "${base}.srt"
 	else
 		echo "WARNING: No subtitles found in ${subpath}!"
 	fi
