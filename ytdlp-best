@@ -1,0 +1,3 @@
+#!/bin/bash
+MAXHEIGHT=${MAXHEIGHT:-1440}
+yt-dlp --trim-filenames 210 -f 'bestvideo[ext=mp4][height<='$MAXHEIGHT']+bestaudio[ext=m4a]/best[ext=mp4][height<='$MAXHEIGHT']/best' $*
