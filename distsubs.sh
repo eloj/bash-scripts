@@ -13,7 +13,12 @@ for f in ./*.mp4; do
 		exit 1
 	fi
 
-	if [ -e "${subpath}/4_English.srt" ]; then
+	# One day we'll do something nicer. Not today though.
+	if [ -e "${subpath}/6_English.srt" ]; then
+		cp "${subpath}/6_English.srt" "${base}.srt"
+	elif [ -e "${subpath}/5_English.srt" ]; then
+		cp "${subpath}/5_English.srt" "${base}.srt"
+	elif [ -e "${subpath}/4_English.srt" ]; then
 		cp "${subpath}/4_English.srt" "${base}.srt"
 	elif [ -e "${subpath}/3_English.srt" ]; then
 		cp "${subpath}/3_English.srt" "${base}.srt"
