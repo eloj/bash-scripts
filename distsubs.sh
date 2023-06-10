@@ -9,8 +9,8 @@ for f in ./*.mp4; do
 	base=${f%%.mp4}
 	subpath=Subs/${base}/
 	if [ ! -d ${subpath} ]; then
-		echo "ERROR: Subtitle path '${subpath}' not found."
-		exit 1
+		echo "WARNING: Subtitle path '${subpath}' not found."
+		continue
 	fi
 
 	# One day we'll do something nicer. Not today though.
