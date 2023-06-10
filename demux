@@ -1,3 +1,8 @@
 #!/bin/bash
 ext=${2:-opus}
-ffmpeg -i "$1" -vn -acodec copy "${1%.*}.$ext"
+if ffmpeg -i "$1" -vn -acodec copy "${1%.*}.$ext"; then
+	echo "Removing input file"
+	rm "$1"
+else
+	echo "ERROR converting. Leaving input file in place."
+fi
