@@ -4,7 +4,8 @@
 #
 # The optional episode number is in RSS order (1 = newest, 2 = previous ...)
 #
-RSS_URL=https://omny.fm/shows/the-nextlander-podcast/playlists/podcast.rss
+RSS_URL=https://audioboom.com/channels/5116059.rss
+#RSS_URL=https://omny.fm/shows/the-nextlander-podcast/playlists/podcast.rss
 RSS=$1
 EPISODE=${2:-1}
 
