@@ -1,13 +1,17 @@
 #!/bin/bash
 #
-# Download Nextlander podcast(s)
+# Nextlander Podcasts Downloader Script
+# https://github.com/eloj/bash-scripts
 #
 # The optional episode number is in RSS order (1 = newest, 2 = previous ...)
 #
-RSS_URL=https://audioboom.com/channels/5116059.rss
-#RSS_URL=https://omny.fm/shows/the-nextlander-podcast/playlists/podcast.rss
 RSS=$1
 EPISODE=${2:-1}
+
+if [ -z "${RSS}" ]; then
+	echo "Usage: $0 <rss> [episode-offset]"
+	exit 1
+fi
 
 command -v wget >/dev/null 2>&1 || { echo >&2 "wget not available, aborting."; exit 1; }
 command -v xmlstarlet >/dev/null 2>&1 || { echo >&2 "xmlstarlet not available, aborting."; exit 1; }
@@ -32,14 +36,20 @@ EPATH="/rss/channel/item[${EPISODE}]"
 
 # Extract relevant data from XML
 CHANNEL=$(xmlstarlet sel --text -t -v '/rss/channel/title' ${RSS})
-TITLE=$(xmlstarlet sel --text -t -v ${EPATH}'/title' ${RSS})
+TITLE=$(xmlstarlet sel --text -t -v ${EPATH}'/itunes:title' ${RSS})
+if [ -z "${TITLE}" ]; then
+	echo "Falling back to title element."
+	TITLE=$(xmlstarlet sel --text -t -v ${EPATH}'/title' ${RSS})
+fi
 URL=$(xmlstarlet sel --text -t -v ${EPATH}'/enclosure/@url' ${RSS})
 EPISODE=$(xmlstarlet sel --text -t -v ${EPATH}'/itunes:episode' ${RSS})
 PUBDATE=$(xmlstarlet sel --text -t -v ${EPATH}'/pubDate' ${RSS})
+EPISODE_PAD=$(printf "%03d" ${EPISODE})
 DATE=$(date +"%Y-%m-%d" --date="${PUBDATE}")
 
-EPISODE_PAD=$(printf "%03d" ${EPISODE})
 # Try to strip episode number from title
+TITLE=${TITLE//${EPISODE}: /}
+TITLE=${TITLE//${EPISODE} - /}
 TITLE=${TITLE//${EPISODE_PAD} - /}
 TITLE=${TITLE//${EPISODE_PAD}: /}
 DEST=$(printf "%s - %s - %s (%s).mp3" "${CHANNEL}" "${EPISODE_PAD}" "${TITLE%\?}" "${DATE}")

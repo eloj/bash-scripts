@@ -1,3 +1,7 @@
 #!/bin/bash
-RSS=https://omny.fm/shows/watchcast/playlists/podcast.rss
+#
+# Nextlander Watchcast Downloader Script (helper)
+# https://github.com/eloj/bash-scripts
+#
+RSS=https://audioboom.com/channels/5117047.rss
 nextlander-download ${RSS} $*
