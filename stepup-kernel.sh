@@ -47,9 +47,10 @@ else
 	exit 4
 fi
 
-popd .
-pwd
+popd
+echo "Renaming source tree"
 mv linux-$R_VER linux-$NEXT_VER
+echo "Removing patch file"
 rm ${PATCH_FILE}
 
 echo "Suggest: sudo ./kinstall $NEXT_VER"
