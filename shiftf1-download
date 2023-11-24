@@ -45,7 +45,8 @@ DEST=${DEST//  / }
 
 # Download if necessary.
 if [ ! -z ${URL} ]; then
-	if [ ! -f "${DEST}" ]; then
+	# If file is empty or non-existant...
+	if [ ! -s "${DEST}" ]; then
 		echo "Downloading podcast episode."
 		wget ${URL} -O "${DEST}"
 	else
