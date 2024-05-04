@@ -4,7 +4,7 @@
 #
 # The optional episode number is in RSS order (1 = newest, 2 = previous ...)
 #
-RSS_URL=http://shiftf1.libsyn.com/rss
+RSS_URL=https://shiftf1.libsyn.com/rss
 RSS=$1
 EPISODE=${2:-1}
 
