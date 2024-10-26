@@ -1,6 +1,6 @@
 #!/bin/bash
 TVER=${1:-14}
-TDIR=/opt/local/bin
+TDIR=${2:-/opt/local/bin}
 update-alternatives --remove-all gcc
 update-alternatives --remove-all g++
 update-alternatives --remove-all cpp
