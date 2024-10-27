@@ -58,7 +58,7 @@ DISCTOTAL=1
 "
 
 # Append date if available
-if [[ "$DATE" -ne "" ]]; then
+if [[ ! -z "$DATE" ]]; then
 	TB="${TB}DATE=${DATE}"
 fi
 
@@ -82,5 +82,5 @@ done
 
 if [[ -z "$DATE" ]]; then
 	echo "No date was detected, you can set it with:"
-	echo "$CMD -i -s DATE=yyyy $FILESPEC"
+	echo "$CMD -i -s DATE=yyyy <files..>"
 fi
