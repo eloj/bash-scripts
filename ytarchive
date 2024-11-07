@@ -1,0 +1,2 @@
+#!/bin/bash
+find -regex ".*\[.*\]\.\(mp4\|webm\)$" | egrep -o -- "\[[0-9a-zA-Z_-]{11}\]" | cut -c2-12 | xargs printf "youtube %s\n"
