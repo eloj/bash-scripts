@@ -12,7 +12,7 @@ if [[ ! -d ${GCCDIR} ]]; then
 fi
 
 if [[ ! -d ${PREFIX} ]]; then
-	echo "Second argument must be the GCC target prefix, e.g /opt/local"
+	echo "Second argument must be the desired GCC installation prefix, e.g /opt/local"
 	exit 1
 fi
 
