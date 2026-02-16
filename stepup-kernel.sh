@@ -7,6 +7,8 @@
 #
 BASE_URL=https://cdn.kernel.org/pub/linux/kernel
 R_VER=${1:-$(uname -r)}
+# Strip any -customtag
+R_VER=${R_VER%%-*}
 R_MAJOR=${R_VER%%.*}
 R_LEVEL=${R_VER##*.}
 D_LEVEL=$((${R_LEVEL} + 1))
