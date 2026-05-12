@@ -58,6 +58,7 @@ declare -a subst=(
 	"paramter:parameter"
 	"permissons:permissions"
 	"portait:portrait"
+	"psuedo:pseudo"
 	"preceeding:preceding"
 	"prefered:preferred"
 	"publically:publicly"
