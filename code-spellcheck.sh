@@ -78,6 +78,14 @@ declare -a subst=(
 	"untill:until"
 	"vlaue:value"
 	"wether:whether"
+	"Releaase:Release"
+	"Mutiple:Multiple"
+	"declation:declaration"
+	"penality:penalty"
+	"rougly:roughly"
+	"bellow:below"
+	"accomodate:accommodate"
+	"futher:further"
 )
 
 for sub in "${subst[@]}"; do
