@@ -5,6 +5,7 @@
 # Redirect to 'install.sh' file.
 #
 SRCDIR=${1:-$HOME/dev/EXT/linux-firmware-git/amdgpu}
+IGNORE_NEW=${2:-0}
 DSTDIR=/lib/firmware/amdgpu
 
 # Optionally git pull the source directory if possible
@@ -44,9 +45,11 @@ for FILE in ${SRCDIR}/*.bin; do
 				echo touch --reference=${FILE} ${TARGET}.zst
 			fi
 		else
-			echo "# New firmware"
-			echo zstd ${FILE} -o ${TARGET}.zst
-			echo touch --reference=${FILE} ${TARGET}.zst
+			if [ "${IGNORE_NEW}" -eq 0 ]; then
+				echo "# New firmware"
+				echo zstd ${FILE} -o ${TARGET}.zst
+				echo touch --reference=${FILE} ${TARGET}.zst
+			fi
 		fi
 	fi
 done
