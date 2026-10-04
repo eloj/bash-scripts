@@ -6,13 +6,16 @@
 # https://github.com/mesonbuild/meson/releases
 # Unpack archive from github and path it.
 #
-# Req: LLVM >= ??
+# Req: LLVM >= 18.0.0
 # https://github.com/llvm/llvm-project/releases
 # Unpack archive from github and path it,
 # then add its 'lib' dir to your ld.so.conf
 #
+# You also need Python 3.12+ and the Vulkan SDK
+#
 # Package dependencies include, but are not limited to:
-# libxml2-dev libglvnd-dev libxcb-dri2-0-dev libxcb-randr0-dev libxcb-glx0-dev libxcb-shm0-dev libx11-xcb-dev libxcb-dri3-dev libxcb-present-dev libxshmfence-dev
+# libxml2-dev libglvnd-dev libxcb-dri2-0-dev libxcb-randr0-dev libxcb-glx0-dev libxcb-shm0-dev \
+# libx11-xcb-dev libxcb-dri3-dev libxcb-present-dev libxshmfence-dev libxcb-keysyms1-dev
 #
 PREFIX=$HOME/build/mesa
 CONFNAME=amd
