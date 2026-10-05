@@ -17,13 +17,26 @@
 # libxml2-dev libglvnd-dev libxcb-dri2-0-dev libxcb-randr0-dev libxcb-glx0-dev libxcb-shm0-dev \
 # libx11-xcb-dev libxcb-dri3-dev libxcb-present-dev libxshmfence-dev libxcb-keysyms1-dev
 #
+EXTRA_VERSION="mine"
 PREFIX=$HOME/build/mesa
 CONFNAME=amd
-BUILDID="$(whoami)@$(uname -n)"
+
+if [[ "${EXTRA_VERSION}" != "" ]]; then
+	VERSION="$(cat VERSION)"
+	if [[ ${VERSION} != *-${EXTRA_VERSION} ]]; then
+		echo "Updating VERSION with EXTRA_VERSION"
+		VERSION="${VERSION}-${EXTRA_VERSION}"
+		echo ${VERSION} > VERSION
+	fi
+fi
+
+BUILDID="$(whoami)@$(uname -n)-${VERSION}"
 # CFLAGS_LTO="-flto=auto -fuse-linker-plugin"
 CFLAGS_EXTRA="-O3 -march=native -mtune=native -pipe -DNDEBUG ${CFLAGS_LTO}"
+
 # meson setup --wipe build/${CONFNAME}
-#rm -rf build/${CONFNAME}/*
+# rm -rf build/${CONFNAME}/*
+
 meson setup build/${CONFNAME} --libdir lib64 --prefix ${PREFIX} --buildtype=release \
 	-Dgallium-drivers=radeonsi \
 	-Dvulkan-drivers=amd \
